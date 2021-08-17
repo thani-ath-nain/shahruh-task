@@ -1,12 +1,12 @@
 <?php
 // Initialize the session
-session_start();
+// session_start();
 
-// Check if the user is already logged in, if yes then redirect him to welcome page
-if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    header("location: welcome.php");
-    exit;
-}
+// // // Check if the user is already logged in, if yes then redirect him to welcome page
+// // if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+// //     header("location: welcome.php");
+// //     exit;
+// // }
 
 // Include config file
 require_once "config.php";
@@ -63,8 +63,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $username;
 
-                            // Redirect user to welcome page
-                            header("location: welcome.php");
+                            // Check if clicked Remember me
+                            if (isset($_POST["rememberme"])) {
+
+                                setcookie("usernamecookie", $username, time() + 86400);
+                                setcookie("passwordcookie", $password, time() + 86400);
+
+                                // Redirect user to welcome page
+                                header("location: welcome.php");
+                            } else {
+                                header("location: welcome.php");
+                            }
                         } else {
                             // Password is not valid, display a generic error message
                             $login_err = "Invalid username or password.";
@@ -77,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 echo "Oops! Something went wrong. Please try again later.";
             }
+
 
             // Close statement
             $stmt->close();
@@ -122,17 +132,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group">
                 <label>Username</label>
-                <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
+                <input type="text" name="username" class="form-control 
+                <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php if (isset($_COOKIE["usernamecookie"])) {
+                                                                                        echo $_COOKIE["usernamecookie"];
+                                                                                    } ?>">
                 <span class="invalid-feedback"><?php echo $username_err; ?></span>
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>">
+                <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php if (isset($_COOKIE["passwordcookie"])) {
+                                                                                                                                                    echo $_COOKIE["passwordcookie"];
+                                                                                                                                                } ?>">
                 <span class="invalid-feedback"><?php echo $password_err; ?></span>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" name="rememberme">
+                <label>Remember Me</label>
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Login">
             </div>
+
             <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
         </form>
     </div>
