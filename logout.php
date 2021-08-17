@@ -2,10 +2,9 @@
 
 session_start(); // Initialize the session
 
-if (isset($_COOKIE['usernamecookie'])) {
-    unset($_COOKIE['usernamecookie']);
-    setcookie('usernamecookie', null, -1, '/');
-}
+setcookie("usernamecookie" , "" , time() - 3600);
+setcookie("passwordcookie" , "" , time() - 3600);
+
 
 $_SESSION = array(); // Unset all of the session variables
 
