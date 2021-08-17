@@ -18,24 +18,6 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
         $name = $input_name;
     }
 
-    // // Validate address address
-    // $input_address = trim($_POST["address"]);
-    // if (empty($input_address)) {
-    //     $address_err = "Please enter an address.";
-    // } else {
-    //     $address = $input_address;
-    // }
-
-    // // Validate salary
-    // $input_salary = trim($_POST["salary"]);
-    // if (empty($input_salary)) {
-    //     $salary_err = "Please enter the salary amount.";
-    // } elseif (!ctype_digit($input_salary)) {
-    //     $salary_err = "Please enter a positive integer value.";
-    // } else {
-    //     $salary = $input_salary;
-    // }
-
     // Check input errors before inserting in database
     if (empty($name_err)) {
         // Prepare an update statement
@@ -46,8 +28,6 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
             // Set parameters
             $param_id = $id;
             $param_name = $name;
-            // $param_address = $address;
-            // $param_salary = $salary;
 
 
             // Attempt to execute the prepared statement
@@ -86,8 +66,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
 
                     // Retrieve individual field value
                     $name = $row["username"];
-                    // $address = $row["address"];
-                    // $salary = $row["salary"];
+                   
                 } else {
                     // URL doesn't contain valid id. Redirect to error page
                     header("location: error.php");
@@ -134,16 +113,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                             <input type="text" name="name" class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>">
                             <span class="invalid-feedback"><?php echo $name_err; ?></span>
                         </div>
-                        <!-- <div class="form-group">
-                            <label>Address</label>
-                            <textarea name="address" class="form-control <?php echo (!empty($address_err)) ? 'is-invalid' : ''; ?>"><?php echo $address; ?></textarea>
-                            <span class="invalid-feedback"><?php echo $address_err; ?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Salary</label>
-                            <input type="text" name="salary" class="form-control <?php echo (!empty($salary_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $salary; ?>">
-                            <span class="invalid-feedback"><?php echo $salary_err; ?></span>
-                        </div> -->
+                       
                         <input type="hidden"  name="id" value="<?php echo $id; ?>" />
                         <input type="submit" class="btn btn-primary" value="Submit">
                         <a href="crud.php" class="btn btn-secondary ml-2">Cancel</a>
