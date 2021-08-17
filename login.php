@@ -69,7 +69,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 setcookie("usernamecookie", $username, time() + 86400);
                                 setcookie("passwordcookie", $password, time() + 86400);
 
-                                // Redirect user to welcome page
                                 header("location: welcome.php");
                             } else {
                                 header("location: welcome.php");
@@ -86,7 +85,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 echo "Oops! Something went wrong. Please try again later.";
             }
-
 
             // Close statement
             $stmt->close();
@@ -106,15 +104,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        body {
-            font: 14px sans-serif;
-        }
+    body {
+        font: 14px sans-serif;
+    }
 
-        .wrapper {
-            margin: 0 auto;
-            width: 360px;
-            padding: 20px;
-        }
+    .wrapper {
+        margin: 0 auto;
+        width: 360px;
+        padding: 20px;
+    }
     </style>
 </head>
 
@@ -124,25 +122,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <p>Please fill in your credentials to login.</p>
 
         <?php
-        if (!empty($login_err)) {
-            echo '<div class="alert alert-danger">' . $login_err . '</div>';
-        }
-        ?>
+if (!empty($login_err)) {
+    echo '<div class="alert alert-danger">' . $login_err . '</div>';
+}
+?>
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group">
                 <label>Username</label>
-                <input type="text" name="username" class="form-control 
+                <input type="text" name="username" class="form-control
                 <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php if (isset($_COOKIE["usernamecookie"])) {
-                                                                                        echo $_COOKIE["usernamecookie"];
-                                                                                    } ?>">
+    echo $_COOKIE["usernamecookie"];
+}?>">
                 <span class="invalid-feedback"><?php echo $username_err; ?></span>
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php if (isset($_COOKIE["passwordcookie"])) {
-                                                                                                                                                    echo $_COOKIE["passwordcookie"];
-                                                                                                                                                } ?>">
+                <input type="password" name="password"
+                    class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php if (isset($_COOKIE["passwordcookie"])) {
+    echo $_COOKIE["passwordcookie"];
+}?>">
                 <span class="invalid-feedback"><?php echo $password_err; ?></span>
             </div>
             <div class="form-group">
